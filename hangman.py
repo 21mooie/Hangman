@@ -5,7 +5,7 @@ Created on Wed Nov  8 15:39:10 2017
 @author: Muata Nkosi
 """
 import random
-import tkinter 
+ 
 
 def game_status(game_won,times_wrong,guess):
     if (guess!='quit' and not game_won and times_wrong<5):
