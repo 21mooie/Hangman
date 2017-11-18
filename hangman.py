@@ -5,7 +5,7 @@ Created on Wed Nov  8 15:39:10 2017
 @author: Muata Nkosi
 """
 import random
- 
+
 
 def game_status(game_won,times_wrong,guess):
     if (guess!='quit' and not game_won and times_wrong<5):
@@ -111,9 +111,3 @@ def run_game():
             word = txtfile.readline()[0:-1]
     print(word)
     play_game(word)
-
-
-def main():
-    print("Welcome to hangman! Would you like to play?")
-    choose_to_play('')
-main()
