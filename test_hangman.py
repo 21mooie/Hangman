@@ -1,4 +1,5 @@
 import unittest
+import mock
 from hangman import *
 
 
@@ -48,7 +49,7 @@ class HangmanTestCase(unittest.TestCase):
         #     get_word(50, 'notwordlist.txt')
 
     def test_start_game(self):
-        for i in range(100):
+        for i in range(10):
             try:
                 start_game()
             except Exception:
@@ -61,30 +62,57 @@ class HangmanTestCase(unittest.TestCase):
         self.assertEqual(len(set_board('zzzzzzzzzzzzzz')), 14)
         self.assertEqual(len(set_board('zaz')), 3)
 
-    #def test_play_game(self):
-    #    word = 'a'
-    #    play_game(word,set_board(word))
-
     #def test_take_turn(self):
-        #design take turn test to test that board & times_wrong matches
+    #design take turn test to test that board & times_wrong matches
 
-    # def test_game_status(self):
-    #
-    # def test_set_hangman(self):
-    #
-    # def test_set_board(self):
-    #
-    # def test_show_board(self):
-    #
-    # def test_valid_guess(self):
-    #
-    # def test_update_board(self):
-    #
-    # def test_correct_guess(self):
-    #
-    # def test_win_or_loss(self):
-    #
-    # def test_decrease_times_wrong(self):
+    def test_game_status(self):
+        # singly true
+        self.assertTrue(game_status('quit',1,set_board('word')))
+        self.assertTrue(game_status('a', 0, set_board('word')))
+        self.assertTrue(game_status('a', 1, ['a']))
+
+        #doubly true
+        self.assertTrue(game_status('quit', 0,set_board('word')))
+        self.assertTrue(game_status('quit', 1, ['a']))
+        self.assertTrue(game_status('a', 0, ['a']))
+
+        #all true
+        self.assertTrue(game_status('quit', 0, ['a']))
+
+        #false
+        self.assertFalse(game_status('a', 1, set_board('word')))
+        self.assertFalse(game_status('a', 1, set_board('')))
+        self.assertFalse(game_status('a', -4, set_board('word')))
+
+    def test_set_hangman(self):
+        self.assertEqual(set_hangman('word'),'word')
+        self.assertEqual(set_hangman(''), '')
+
+    def test_set_board(self):
+        self.assertEqual(len([]),len(set_board('')))
+        self.assertEqual(['_'],set_board('a'))
+
+    def test_show_board(self):
+        self.assertEqual('a _ ',show_board(['a','_']))
+        self.assertEqual('_ ', show_board(['_']))
+
+    def test_valid_guess(self):
+        #with mock.patch('__builtin__.input', return_value='a'):
+        self.assertEqual('a',valid_guess('a'))
+    def test_update_board(self):
+        self.assertEqual(['a','_'],update_board('a','at',set_board('at')))
+        self.assertEqual(['a', 'a'], update_board('a', 'aa', set_board('aa')))
+    def test_correct_guess(self):
+        self.assertTrue(correct_guess('a','apple'))
+        self.assertFalse(correct_guess('z', 'apple'))
+        self.assertFalse(correct_guess('', 'apple'))
+    def test_win_or_loss(self):
+        self.assertTrue(win_or_loss(['a']))
+        self.assertTrue(win_or_loss(['']))
+        self.assertFalse(win_or_loss(['_']))
+        self.assertFalse(win_or_loss([]))
+    def test_decrease_times_wrong(self):
+        self.assertEqual(4,decrease_times_wrong(5))
 
 
 if __name__ == '__main__':

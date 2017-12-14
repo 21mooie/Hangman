@@ -18,7 +18,7 @@ def print_word(word):
 
 def game_status(guess, times_wrong, board):
     """
-    Returns if game is over
+    Returns true if game is over
     :param guess: checks if the player quit
     :param times_wrong: checks if player ran out of guesses
     :param board: checks board for done
@@ -167,7 +167,7 @@ def win_or_loss(board):
     :param board: the current board
     :return: true if player won false if player loss
     """
-    return '_' not in board
+    return '_' not in board and len(board) > 0
 
 
 def play_game(word, board):
