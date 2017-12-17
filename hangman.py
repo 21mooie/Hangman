@@ -7,15 +7,6 @@ Created on Wed Nov  8 15:39:10 2017
 import random
 
 
-def print_word(word):
-    """
-    shows the word being guessed
-    :param word: word being guessed
-    :return: word
-    """
-    return word
-
-
 def game_status(guess, times_wrong, board):
     """
     Returns true if game is over
@@ -74,6 +65,15 @@ def set_board(word):
     :return: list to keep track of game
     """
     return ['_']*len(word)
+
+
+def show_word(word):
+    """
+    shows word to user
+    :param word: word used for game
+    :return:
+    """
+    return "Thanks for playing. The word was " + word
 
 
 def show_board(board):
@@ -212,8 +212,21 @@ def ran_num_gen():
     Generate a pseudo-random number
     :return: psuedo-random number
     """
-    x = random.randint(0, 69902)
+#    x = random.randint(0, 72326)
+    x = 72319
     return x
+
+
+def find_num_lines_in_dic(dictionary):
+    """
+    num line finder
+    :param dictionary: dic being used
+    :return: number of lines in dictionary
+    """
+    with open(dictionary) as f:
+        for i, l in enumerate(f):
+            print(l)
+    return(i + 1)
 
 
 def find_dict():
@@ -221,7 +234,7 @@ def find_dict():
     returns a dictionary
     :return: dictionary
     """
-    dictionary = 'wordlist.txt'
+    dictionary = 'Oxford English Dictionary.txt'
     return dictionary
 
 
@@ -232,7 +245,7 @@ def get_word(num, dictionary):
     :param dictionary: dictionary
     :return: returns the num word in the dictionary for game
     """
-    word = 'emptyword'
+    word = ''
     try:
         with open(dictionary) as txtfile:
             for i in range(num+1):
@@ -240,8 +253,8 @@ def get_word(num, dictionary):
     except FileNotFoundError:
         raise FileNotFoundError('cannot open dictionary/find word')
 
-    if not word:
-        word = 'emptyword'
+    # if not word:
+    #    word = 'emptyword'
     return word
 
 
@@ -256,20 +269,21 @@ def start_game():
     # pick random number within file
     try:
         word = get_word(ran_num_gen(), find_dict())
-        print(print_word(word))
     except Exception:
         raise Exception("Error Game Cannot Start")
     return word
 
 
-def game_result(status):
+def game_result(status, word):
     """
     Updates result of game
     :param status: true if game was won false if loss
+    :param word: word from game
     :return: null
     """
     if status:
         print("You won! Congrats!")
     else:
         print("Sorry, you lost. Try again next time.")
+        print(show_word(word))
     end_game()
