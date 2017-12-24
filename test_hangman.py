@@ -26,9 +26,9 @@ class HangmanTestCase(unittest.TestCase):
             self.assertLessEqual(ran_num_gen(), 69902)
 
     def test_find_dict(self):
-        # self.assertEqual(find_dict(), 'wordlist.txt')
-        # self.assertNotEqual(find_dict(), 'notwordlist.txt')
-        find_dict()
+        self.assertEqual(find_dict(), 'HangmanDictionary.txt')
+        self.assertNotEqual(find_dict(), 'notHangmanDictionary.txt')
+        #print(get_word(ran_num_gen(),find_dict()))
 
     def test_get_word(self):
         # TEST NO ERROR ON CORRECT FILE OPEN

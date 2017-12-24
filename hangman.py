@@ -213,7 +213,8 @@ def ran_num_gen():
     :return: psuedo-random number
     """
 #    x = random.randint(0, 72326)
-    x = 72319
+    # x = 72319
+    x = 36740
     return x
 
 
@@ -223,10 +224,11 @@ def find_num_lines_in_dic(dictionary):
     :param dictionary: dic being used
     :return: number of lines in dictionary
     """
+    i = 1
     with open(dictionary) as f:
         for i, l in enumerate(f):
             print(l)
-    return(i + 1)
+    return i + 1
 
 
 def find_dict():
@@ -234,7 +236,7 @@ def find_dict():
     returns a dictionary
     :return: dictionary
     """
-    dictionary = 'Oxford English Dictionary.txt'
+    dictionary = 'HangmanDictionary.txt'
     return dictionary
 
 
@@ -248,7 +250,7 @@ def get_word(num, dictionary):
     word = ''
     try:
         with open(dictionary) as txtfile:
-            for i in range(num+1):
+            for i in range(num):
                 word = txtfile.readline()[0:-1]
     except FileNotFoundError:
         raise FileNotFoundError('cannot open dictionary/find word')
