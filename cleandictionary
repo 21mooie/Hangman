@@ -1,11 +1,12 @@
 def main():
-    dictionary = 'Oxford English Dictionary.txt'
+    dictionary = 'HangmanDictionaryWithDivs.txt'
     dic = []
     print("hello world")
     with open(dictionary) as txtfile:
          for line in txtfile:
-             if line != '\n':
+             if len(line) > 3:       # 3 because the division lines have the alphabet symbol, a space, and a new line char
                 dic.append(line)
+
 
     count = 0
     with open("HangmanDictionary.txt",'w') as newtxtfile:
