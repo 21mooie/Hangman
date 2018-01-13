@@ -7,15 +7,6 @@ Created on Wed Nov  8 15:39:10 2017
 import random
 
 
-def print_word(word):
-    """
-    shows the word being guessed
-    :param word: word being guessed
-    :return: word
-    """
-    return word
-
-
 def game_status(guess, times_wrong, board):
     """
     Returns true if game is over
@@ -74,6 +65,19 @@ def set_board(word):
     :return: list to keep track of game
     """
     return ['_']*len(word)
+
+
+def show_word(word):
+    """
+    shows word to user
+    :param word: word used for game
+    :return:
+    """
+    return "Thanks for playing. The word was " + word
+
+
+def show_deff(deff):
+    return "Definition: " + deff
 
 
 def show_board(board):
@@ -170,22 +174,24 @@ def win_or_loss(board):
     return '_' not in board and len(board) > 0
 
 
-def play_game(word, board):
+def play_game(wordndef, board):
     """
     Entire logic of hangman
     :param word: word to be used for game
     :param board: keeps status of game's guesses
     :return: if player won or loss
     """
+    word = wordndef[0]
+    deff = wordndef[1]
     game_done = False
     times_wrong = 5
     while not game_done:
 
         #  sets round up   ####
         set_hangman(times_wrong)
+        print(show_deff(deff))
         print(show_board(board))
         print(show_inc_guess_left(times_wrong))
-
         guess = valid_guess('')
         if guess != 'quit':
             if correct_guess(guess, word):
@@ -210,10 +216,26 @@ def decrease_times_wrong(times_wrong):
 def ran_num_gen():
     """
     Generate a pseudo-random number
+    For HangmanDictionary.txt the max is 36665
     :return: psuedo-random number
     """
-    x = random.randint(0, 69902)
+    x = random.randint(0, 36665)
+
+
     return x
+
+
+def find_num_lines_in_dic(dictionary):
+    """
+    num line finder
+    :param dictionary: dic being used
+    :return: number of lines in dictionary
+    """
+    i = 1
+    with open(dictionary) as f:
+        for i, l in enumerate(f):
+            print(l)
+    return i + 1
 
 
 def find_dict():
@@ -221,28 +243,29 @@ def find_dict():
     returns a dictionary
     :return: dictionary
     """
-    dictionary = 'wordlist.txt'
+    dictionary = 'HangmanDictionary.txt'
     return dictionary
 
 
-def get_word(num, dictionary):
+def get_word_and_deff(num, dictionary):
     """
-    Picks word for game
+    Picks word & gets definition for game
     :param num: random number
     :param dictionary: dictionary
-    :return: returns the num word in the dictionary for game
+    :return: returns the word & definition in the dictionary for game within list
     """
-    word = 'emptyword'
+    worddefflist = ''
     try:
         with open(dictionary) as txtfile:
-            for i in range(num+1):
-                word = txtfile.readline()[0:-1]
+            for i in range(num):
+                worddefflist = txtfile.readline()[0:-1].split(" ", 1)
+                # figure out how to split line such that word is first item and definition is second
     except FileNotFoundError:
         raise FileNotFoundError('cannot open dictionary/find word')
 
-    if not word:
-        word = 'emptyword'
-    return word
+    # if not word:
+    #    word = 'emptyword'
+    return worddefflist
 
 
 def start_game():
@@ -255,21 +278,22 @@ def start_game():
     # grab number of lines in file
     # pick random number within file
     try:
-        word = get_word(ran_num_gen(), find_dict())
-        print(print_word(word))
+        wordndef = get_word_and_deff(ran_num_gen(), find_dict())
     except Exception:
         raise Exception("Error Game Cannot Start")
-    return word
+    return wordndef
 
 
-def game_result(status):
+def game_result(status, word):
     """
     Updates result of game
     :param status: true if game was won false if loss
+    :param word: word from game
     :return: null
     """
     if status:
         print("You won! Congrats!")
     else:
         print("Sorry, you lost. Try again next time.")
+        print(show_word(word))
     end_game()

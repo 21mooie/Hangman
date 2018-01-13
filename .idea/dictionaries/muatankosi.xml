@@ -3,10 +3,14 @@
     <words>
       <w>boardstr</w>
       <w>emptyword</w>
+      <w>gamelist</w>
       <w>muata</w>
       <w>nkosi</w>
       <w>notwordlist</w>
+      <w>txtfile</w>
+      <w>worddefflist</w>
       <w>wordlist</w>
+      <w>wordndef</w>
     </words>
   </dictionary>
 </component>

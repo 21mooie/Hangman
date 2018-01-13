@@ -1,5 +1,5 @@
 import unittest
-import mock
+# import mock
 from hangman import *
 
 
@@ -7,12 +7,11 @@ from hangman import *
 class HangmanTestCase(unittest.TestCase):
     """
     Unit test for all methods in hangman.py class except:
-        print_word(word)
         end_game()
         play_game(word,board)
         game_result(status)
+        find_num_lines_in_dic(dictionary)
     """
-
 
     def test_choose_to_play(self):
         """
@@ -23,27 +22,35 @@ class HangmanTestCase(unittest.TestCase):
         self.assertTrue(choose_to_play('y'))
 
     def test_ran_num_gen(self):
-        for i in range(69903):
-            self.assertLessEqual(ran_num_gen(), 69902)
+        """
+        Depends on the dictionary being used so this should be dynamic or atleast test for all dictionaries
+        then make sure the num returned is less than what can be generated
+        :return:
+        """
+        for i in range(36665):
+            self.assertLessEqual(ran_num_gen(), 36665)
 
     def test_find_dict(self):
-        self.assertEqual(find_dict(), 'wordlist.txt')
-        self.assertNotEqual(find_dict(), 'notwordlist.txt')
+        self.assertEqual(find_dict(), 'HangmanDictionary.txt')
+        self.assertNotEqual(find_dict(), 'notHangmanDictionary.txt')
 
-    def test_get_word(self):
-        #TEST NO ERROR ON CORRECT FILE OPEN
-        #TEST word == '' IF NUM GEN EXCEEDS NUM WORDS IN DIC
-        #TEST FileNotFoundError raises on dictionary not found
+    def test_getrandomword(self):
+       print(get_word_and_deff(ran_num_gen(), find_dict()))
+
+    def test_get_word_and_deff(self):
+        # TEST NO ERROR ON CORRECT FILE OPEN
+        # TEST word == '' IF NUM GEN EXCEEDS NUM WORDS IN DIC
+        # TEST FileNotFoundError raises on dictionary not found
+
+        # try:
+        #     print(get_word_and_deff(0, 'wordlist2.txt'))
+        # except FileNotFoundError:
+        #     self.fail('get_word_and_deff() could not open wordlist2.txt')
 
         try:
-            print(get_word(0, 'wordlist.txt'))
+            print(get_word_and_deff(36665, 'HangmanDictionary.txt'))
         except FileNotFoundError:
-            self.fail('get_word() could not open wordlist.txt')
-
-        try:
-            print(get_word(69905, 'wordlist.txt'))
-        except FileNotFoundError:
-            self.fail('get_word() could not open wordlist.txt')
+            self.fail('get_word_and_deff() could not open wordlist2.txt')
         # self.assertEqual(get_word(69903, 'wordlist.txt'), '')
         # with self.assertRaises(FileNotFoundError):
         #     get_word(50, 'notwordlist.txt')
