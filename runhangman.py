@@ -10,7 +10,7 @@ def main():
         if gamelist:
             board = set_board(gamelist[0])
             # game_won status is returned which can be used to save player's score and increase over time
-            game_result(play_game(gamelist, board),gamelist[0])
+            game_result(play_game(gamelist , board),gamelist[0])
         else:
             print("There seems to have been an error")
             print("Num gen > num words in dictionary")

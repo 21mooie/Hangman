@@ -2,8 +2,10 @@
   <dictionary name="muatankosi">
     <words>
       <w>boardstr</w>
+      <w>deff</w>
       <w>emptyword</w>
       <w>gamelist</w>
+      <w>guesslist</w>
       <w>muata</w>
       <w>nkosi</w>
       <w>notwordlist</w>
