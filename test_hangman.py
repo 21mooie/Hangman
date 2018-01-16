@@ -105,7 +105,7 @@ class HangmanTestCase(unittest.TestCase):
 
     def test_valid_guess(self):
         #with mock.patch('__builtin__.input', return_value='a'):
-        self.assertEqual('a',valid_guess('a'))
+        self.assertEqual('a',valid_guess('a',[]))
     def test_update_board(self):
         self.assertEqual(['a','_'],update_board('a','at',set_board('at')))
         self.assertEqual(['a', 'a'], update_board('a', 'aa', set_board('aa')))

@@ -64,7 +64,15 @@ def set_board(word):
     :param word: word being used for game
     :return: list to keep track of game
     """
-    return ['_']*len(word)
+    alphabet = []
+    for letter in range(97, 123):
+        alphabet.append(chr(letter))
+
+    board = ['_']*len(word)
+    for i in range(len(word)):
+        if word[i] not in alphabet:
+            board[i] = word[i]
+    return board
 
 
 def show_word(word):
@@ -101,20 +109,20 @@ def show_inc_guess_left(times_wrong):
     """
     return 'You can make ' + str(times_wrong) + ' incorrect guesses.'
 
-# def check_win(board):
-#     for i in board:
-#         if i == '_':
-#             return False
-#     return True
 
 
-def valid_guess(guess):
+
+def valid_guess(guess, guesslist):
     """
     Checks if guess is valid
     :param guess: player's guess
+    :param guesslist: list of guesses already made
     :return: a valid guess for game
     """
-    while guess.lower() < 'a' or guess.lower() > 'z' and guess != 'quit':
+    #while guess.lower() < 'a' or guess.lower() > 'z' and guess != 'quit' and guess in guesslist:
+    while len(guess)<1 or guess in guesslist or guess.lower() < 'a' or guess.lower() > 'z':
+        if (guess in guesslist):
+            print("Sorry, you have already guessed this letter. Please guess another.")
         guess = input('Please guess a letter between a and z: ')
     return guess
 
@@ -147,24 +155,6 @@ def correct_guess(guess, word):
     return check
 
 
-# def take_turn(word, times_wrong,board):
-#     set_hangman(times_wrong)
-#     print(show_board(board))
-#     print('You can make ' + str(5 - times_wrong) + ' incorrect guesses.')
-#     guess = valid_guess('')
-#     if (guess == 'quit'):
-#         choose_to_play('n')
-#     else:
-#         if (correct_guess(guess, word, board)):
-#             print("Good job! This is correct!")
-#         else:
-#             times_wrong += 1
-#             print("Incorrect guess. You have " + str(5 - times_wrong) + " guesses left.")
-#         # print(board)
-#         game_won = check_win(board)
-#         print('game won', game_won)
-#     return game_won
-
 def win_or_loss(board):
     """
     Checks if player has won
@@ -177,12 +167,13 @@ def win_or_loss(board):
 def play_game(wordndef, board):
     """
     Entire logic of hangman
-    :param word: word to be used for game
+    :param wordndef: word to be used for game
     :param board: keeps status of game's guesses
     :return: if player won or loss
     """
     word = wordndef[0]
     deff = wordndef[1]
+    guesslist = []
     game_done = False
     times_wrong = 5
     while not game_done:
@@ -192,7 +183,11 @@ def play_game(wordndef, board):
         print(show_deff(deff))
         print(show_board(board))
         print(show_inc_guess_left(times_wrong))
-        guess = valid_guess('')
+        guess = valid_guess('',guesslist)
+        print("what's up")
+        guesslist.append(guess)
+        print("guesslist:  ")
+        print(guesslist)
         if guess != 'quit':
             if correct_guess(guess, word):
                 board = update_board(guess, word, board)
@@ -216,7 +211,7 @@ def decrease_times_wrong(times_wrong):
 def ran_num_gen():
     """
     Generate a pseudo-random number
-    For HangmanDictionary.txt the max is 36665
+    For HangmanDictionary.txt the max is x = 36665
     :return: psuedo-random number
     """
     x = random.randint(0, 36665)
@@ -257,8 +252,11 @@ def get_word_and_deff(num, dictionary):
     worddefflist = ''
     try:
         with open(dictionary) as txtfile:
-            for i in range(num):
-                worddefflist = txtfile.readline()[0:-1].split(" ", 1)
+            for i in range(num-1):
+                txtfile.readline()
+            worddefflist = txtfile.readline()[0:-1].split(" ", 1)
+            worddefflist[0] = worddefflist[0].lower()
+            # print(worddefflist)
                 # figure out how to split line such that word is first item and definition is second
     except FileNotFoundError:
         raise FileNotFoundError('cannot open dictionary/find word')
